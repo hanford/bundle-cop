@@ -1,0 +1,54 @@
+{
+  "name": "bundle-cop",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanford/bundle-cop.git"
+  },
+  "homepage": "https://github.com/hanford/bundle-cop",
+  "bugs": "https://github.com/hanford/bundle-cop/issues",
+  "authors": [
+    "Jack Hanford"
+  ],
+  "tags": [
+    "react",
+    "webpack",
+    "next.js",
+    "build stats",
+    "bundle",
+    "size",
+    "cli"
+  ],
+  "keywords": [
+    "react",
+    "webpack",
+    "next.js",
+    "build stats",
+    "bundle",
+    "size",
+    "cli"
+  ],
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "bin": {
+    "bundle-cop": "./bin/bundle-cop.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "branch-name": "~1.0.0",
+    "chalk": "~2.3.0",
+    "mz": "~2.6.0",
+    "puppeteer": "~0.13.0",
+    "simple-git": "~1.85.0",
+    "uuid": "~3.1.0"
+  },
+  "devDependencies": {
+    "github": "~9.2.0",
+    "now": "~8.1.0"
+  }
+}
