@@ -62,8 +62,8 @@ module.exports = (async () => {
     log(`comparing`)
     await exec(`webpack-compare ${branchStatsPath} ${masterStatsPath} -o ${cwd}/tmp`)
 
-    log(`openning headless chrome and taking screenshot`)
-    await screenshot(`${cwd}/tmp/index.html`, `${cwd}/tmp/diff-${id}.png`)
+    // log(`openning headless chrome and taking screenshot`)
+    // await screenshot(`${cwd}/tmp/index.html`, `${cwd}/tmp/diff-${id}.png`)
 
     log(`deleting ${branchStatsPath} ${masterStatsPath}`)
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
