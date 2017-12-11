@@ -56,8 +56,8 @@ module.exports = (async () => {
     log(`writing master-stats.json to ${masterStatsPath}`)
     await fs.writeFile(masterStatsPath, masterStats, 'utf8')
 
-    log(`installing webpack-compare`)
-    await exec('npm i webpack-compare -g')
+    log(`installing webpack-compare-pretty`)
+    await exec('npm i webpack-compare-pretty -g')
 
     log(`comparing`)
     await exec(`webpack-compare ${branchStatsPath} ${masterStatsPath} -o ${cwd}/tmp`)
@@ -73,11 +73,13 @@ module.exports = (async () => {
 
     log('Checking out previous branch')
 
-    git.checkout(prevBranch, (err, data) => {
+    git.checkout(prevBranch, async (err, data) => {
       log('Restoring git history')
-      log('removing temp files')
-
       git.stash('pop')
+
+      log('removing temp files')
+      await exec(`rm -rf tmp`)
+
       log(chalk.green(deploy.stdout))
     })
   })
