@@ -15,8 +15,6 @@ const { log, error } = console
 const { branch, team, token } = argv
 
 assert(branch, `--branch must be defined`)
-assert(branch, `--team must be defined`)
-assert(branch, `--token must be defined`)
 
 let initBranch = null
 
@@ -65,19 +63,11 @@ module.exports = (async () => {
 
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
-    const deploy = await exec(`now bundle-cop -t ${token} --team ${team}`, { log: false })
-
-    log(`deployed to: ${chalk.green(deploy.stdout)}`)
-
-    // if we're on CI we don't are about the build state, so let's just return early
-    if (process.env.CIRCLECI) return
-
     log('Checking out previous branch')
 
     git.checkout(initBranch, async (err, data) => {
       if (err) return error(err)
 
-      await exec(`rm -rf bundle-cop`)
       await exec('npm install')
     })
   })

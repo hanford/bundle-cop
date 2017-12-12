@@ -4,12 +4,12 @@ Generate and deploy (via now.sh) a bundle size comparison between two different 
 
 ### Usage
 ```sh
-$ bundle-cop --branch master --team eaze --token process.env.NOW_TOKEN
+$ bundle-cop --branch master
 ```
 
 Bundle cop compares the current branch with the one specified using the `--branch` command.
 
-After comparing, it will generate an `index.html` file which is automatically deployed now, so you also need to specify the `--team` and `--token` flags for deploys to be successful
+After comparing, it will generate an `index.html` file which is automatically has a breakdown of file size changes
 
 Both branches will need to contain a `npm run build-analyze` script.
 
