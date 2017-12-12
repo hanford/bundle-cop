@@ -59,7 +59,7 @@ module.exports = (async () => {
 
     await exec('npm i webpack-compare-pretty -g')
 
-    await exec(`webpack-compare ${branchStatsPath} ${masterStatsPath} -o ${cwd}/bundle-cop`)
+    await exec(`webpack-compare ${masterStatsPath} ${branchStatsPath}  -o ${cwd}/bundle-cop`)
 
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 

@@ -1,6 +1,6 @@
 # bundle-cop 👮‍♀️
 
-Generate and deploy (via now.sh) a bundle size comparison between two different branches
+Generate a bundle size comparison between two different branches
 
 ### Usage
 ```sh
@@ -15,7 +15,7 @@ Both branches will need to contain a `npm run build-analyze` script.
 
 ![preview](https://github.com/hanford/bundle-cop/blob/master/preview.png)
 
-Questions? Feedback? [Please let me know](https://github.com/hanford/Instachrome/issues/new)
+Questions? Feedback? [Please let me know](https://github.com/hanford/bundle-cop/issues/new)
 
 ## License (MIT)
 
