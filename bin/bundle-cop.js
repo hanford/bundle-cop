@@ -14,7 +14,7 @@ const { log, error } = console
 
 const { branch } = argv
 
-assert(branch, 'Please pass in branch using the --branch flag')
+assert(branch, `--branch must be defined`)
 
 let initBranch = null
 
@@ -64,6 +64,7 @@ module.exports = (async () => {
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
     const deploy = await exec(`now bundle-cop`)
+    log(`deployed to: ${chalk.green(deploy.stdout)}`)
 
     log('Checking out previous branch')
 
@@ -72,8 +73,6 @@ module.exports = (async () => {
 
       await exec(`rm -rf bundle-cop`)
       await exec('npm install')
-
-      log(chalk.green(deploy.stdout))
     })
   })
 })()
