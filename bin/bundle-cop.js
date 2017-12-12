@@ -65,8 +65,12 @@ module.exports = (async () => {
 
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
-    const deploy = await exec(`now bundle-cop -t ${token} --team ${team}`)
+    const deploy = await exec(`now bundle-cop -t ${token} --team ${team}`, { log: false })
+
     log(`deployed to: ${chalk.green(deploy.stdout)}`)
+
+    // if we're on CI we don't are about the build state, so let's just return early
+    if (process.env.CIRCLECI) return
 
     log('Checking out previous branch')
 
@@ -79,8 +83,10 @@ module.exports = (async () => {
   })
 })()
 
-function exec (command, options = {}) {
-  log(command)
+function exec (command, options = { log: true }) {
+  if (options.log) {
+    log(command)
+  }
 
   return new Promise((done, failed) => {
     cp.exec(command, { cwd, ...options }, (error, stdout, stderr) => {
