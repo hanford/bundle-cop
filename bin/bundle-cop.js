@@ -12,9 +12,11 @@ const { argv } = require('optimist')
 const cwd = process.cwd()
 const { log, error } = console
 
-const { branch } = argv
+const { branch, team, token } = argv
 
 assert(branch, `--branch must be defined`)
+assert(branch, `--team must be defined`)
+assert(branch, `--token must be defined`)
 
 let initBranch = null
 
@@ -63,7 +65,7 @@ module.exports = (async () => {
 
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
-    const deploy = await exec(`now bundle-cop`)
+    const deploy = await exec(`now bundle-cop -t ${token} --team ${team}`)
     log(`deployed to: ${chalk.green(deploy.stdout)}`)
 
     log('Checking out previous branch')
