@@ -8,11 +8,11 @@ const fs = require('mz/fs')
 const SimpleGit = require('simple-git')
 const assert = require('assert')
 const { argv } = require('optimist')
+const { branch, team, token } = argv
 
 const cwd = process.cwd()
+const git = SimpleGit(cwd)
 const { log, error } = console
-
-const { branch, team, token } = argv
 
 assert(branch, `--branch must be defined`)
 
@@ -39,13 +39,12 @@ module.exports = (async () => {
   log(`writing branch-stats.json to ${branchStatsPath}`)
   await fs.writeFile(branchStatsPath, branchStats, 'utf8')
 
-  const git = SimpleGit(cwd)
-
   log(`git checking out ${branch} branch from ${initBranch}`)
   git.stash()
 
   git.checkout(branch, async (err, data) => {
     if (err) return error(err)
+    log(`checked out ${branch}`)
 
     await exec('npm install')
 
@@ -59,7 +58,7 @@ module.exports = (async () => {
 
     await exec('npm i webpack-compare-pretty -g')
 
-    await exec(`webpack-compare ${masterStatsPath} ${branchStatsPath}  -o ${cwd}/bundle-cop`)
+    await exec(`webpack-compare ${masterStatsPath} ${branchStatsPath} -o ${cwd}/bundle-cop`)
 
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
@@ -79,11 +78,12 @@ function exec (command, options = { log: true }) {
   }
 
   return new Promise((done, failed) => {
-    cp.exec(command, { cwd, ...options }, (error, stdout, stderr) => {
-      if (error) {
-        error.stdout = stdout
-        error.stderr = stderr
-        failed(error)
+    cp.exec(command, { cwd, ...options }, (err, stdout, stderr) => {
+      if (err) {
+        error(err)
+        err.stdout = stdout
+        err.stderr = stderr
+        failed(err)
         return
       }
 
