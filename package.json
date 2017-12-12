@@ -46,7 +46,6 @@
     "mz": "~2.6.0",
     "optimist": "~0.6.1",
     "simple-git": "~1.85.0",
-    "uuid": "~3.1.0",
     "webpack-compare-pretty": "~0.2.0"
   },
   "devDependencies": {

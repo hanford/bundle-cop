@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
 const cp = require('child_process')
-const { resolve } = require('path')
 const path = require('path')
-const UUID = require('uuid')
 const branchName = require('branch-name')
 const chalk = require('chalk')
 const fs = require('mz/fs')
@@ -12,18 +10,19 @@ const assert = require('assert')
 const { argv } = require('optimist')
 
 const cwd = process.cwd()
-const log = console.log
-let initBranch = null
+const { log, error } = console
 
 const { branch } = argv
 
 assert(branch, 'Please pass in branch using the --branch flag')
 
-branchName.get().then(name => initBranch = name)
+let initBranch = null
+
+branchName.get().then(name => {
+  initBranch = name
+})
 
 module.exports = (async () => {
-  const id = UUID.v4()
-
   try {
     await fs.mkdir(`${cwd}/bundle-cop`)
     log('created bundle-cop directory')
@@ -46,6 +45,8 @@ module.exports = (async () => {
   git.stash()
 
   git.checkout(branch, async (err, data) => {
+    if (err) return error(err)
+
     await exec('npm install')
 
     await exec(`npm run build-analyze`)
@@ -67,6 +68,8 @@ module.exports = (async () => {
     log('Checking out previous branch')
 
     git.checkout(initBranch, async (err, data) => {
+      if (err) return error(err)
+
       await exec(`rm -rf bundle-cop`)
       await exec('npm install')
 

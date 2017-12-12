@@ -2,6 +2,13 @@
 
 Generate and deploy (via now.sh) a bundle size comparison between two different branches
 
+### Usage
+```sh
+  > bundle-cop --branch master
+```
+
+Bundle cop compares the current branch with the one specified using the `--branch` command. Both branches will need to contain a `npm run build-analyze` script.
+
 ![preview](https://github.com/hanford/bundle-cop/blob/master/preview.png)
 
 Questions? Feedback? [Please let me know](https://github.com/hanford/Instachrome/issues/new)
