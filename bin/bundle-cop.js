@@ -8,9 +8,18 @@ const branchName = require('branch-name')
 const chalk = require('chalk')
 const fs = require('mz/fs')
 const SimpleGit = require('simple-git')
+const assert = require('assert')
+const { argv } = require('optimist')
 
-const log = console.log
 const cwd = process.cwd()
+const log = console.log
+let initBranch = null
+
+const { branch } = argv
+
+assert(branch, 'Please pass in branch using the --branch flag')
+
+branchName.get().then(name => initBranch = name)
 
 module.exports = (async () => {
   const id = UUID.v4()
@@ -32,12 +41,11 @@ module.exports = (async () => {
   await fs.writeFile(branchStatsPath, branchStats, 'utf8')
 
   const git = SimpleGit(cwd)
-  const prevBranch = await branchName.get()
 
-  log(`git checking out 'next' branch from ${prevBranch}`)
+  log(`git checking out ${branch} branch from ${initBranch}`)
   git.stash()
 
-  git.checkout('next', async (err, data) => {
+  git.checkout(branch, async (err, data) => {
     await exec('npm install')
 
     await exec(`npm run build-analyze`)
@@ -58,9 +66,9 @@ module.exports = (async () => {
 
     log('Checking out previous branch')
 
-    git.checkout(prevBranch, async (err, data) => {
-      log('removing temp files')
+    git.checkout(initBranch, async (err, data) => {
       await exec(`rm -rf bundle-cop`)
+      await exec('npm install')
 
       log(chalk.green(deploy.stdout))
     })
