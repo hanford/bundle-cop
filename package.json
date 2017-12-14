@@ -36,8 +36,7 @@
     "bin"
   ],
   "bin": {
-    "bundle-cop": "./bin/bundle-cop.js",
-    "bundle-compare": "./bin/compare.js"
+    "bundle-cop": "./bin/bundle-cop.js"
   },
   "license": "MIT",
   "dependencies": {
