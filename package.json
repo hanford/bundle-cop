@@ -36,13 +36,16 @@
     "bin"
   ],
   "bin": {
-    "bundle-cop": "./bin/bundle-cop.js"
+    "bundle-cop": "./bin/bundle-cop.js",
+    "bundle-compare": "./bin/compare.js"
   },
   "license": "MIT",
   "dependencies": {
     "assert": "~1.4.1",
     "branch-name": "~1.0.0",
     "chalk": "~2.3.0",
+    "commander": "~2.12.2",
+    "lodash": "~4.17.4",
     "mz": "~2.6.0",
     "optimist": "~0.6.1",
     "simple-git": "~1.85.0",

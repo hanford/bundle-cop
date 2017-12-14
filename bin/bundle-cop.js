@@ -9,6 +9,7 @@ const SimpleGit = require('simple-git')
 const assert = require('assert')
 const { argv } = require('optimist')
 const { branch, team, token } = argv
+const compare = require('./compare')
 
 const cwd = process.cwd()
 const git = SimpleGit(cwd)
@@ -56,9 +57,8 @@ module.exports = (async () => {
     log(`writing master-stats.json to ${masterStatsPath}`)
     await fs.writeFile(masterStatsPath, masterStats, 'utf8')
 
-    await exec('npm i webpack-compare-pretty -g')
-
-    await exec(`webpack-compare ${masterStatsPath} ${branchStatsPath} -o ${cwd}/bundle-cop`)
+    log('running comparison')
+    await compare(masterStatsPath, branchStatsPath)
 
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
