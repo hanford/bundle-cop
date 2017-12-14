@@ -62,7 +62,10 @@ module.exports = (async () => {
 
     await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
-    log('Checking out previous branch')
+    log(`stashing any potential changes on ${branch} (*.lock)`)
+    git.stash()
+
+    log(`Checking out ${initBranch}`)
 
     git.checkout(initBranch, async (err, data) => {
       if (err) return error(err)
