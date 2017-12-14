@@ -246,7 +246,7 @@ const html = `
     </head>
     <body>
       <nav>
-        <h1 class='title'>Bundle Cop 🚓</h1>
+        <h1 class='title'>Bundle Cop</h1>
         <div class='link-container'>
           <a class='nav-link' href='#bigger'>Larger Bundless</a>
           <a class='nav-link' href='#smaller'>Smaller Bundles</a>
