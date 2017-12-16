@@ -62,7 +62,7 @@ module.exports = (async () => {
     log('running comparison')
     await compare(masterStatsPath, branchStatsPath)
 
-    await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
+    // await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
 
     log(`stashing any potential changes on ${branch} (*.lock)`)
     git.stash()
@@ -75,6 +75,8 @@ module.exports = (async () => {
       await exec('npm install')
 
       if (circleci) {
+        log('Running GH bot')
+
         Bot.create()
 
         Bot.comment(`
