@@ -9,7 +9,9 @@ const SimpleGit = require('simple-git')
 const assert = require('assert')
 const { argv } = require('optimist')
 const { branch, team, token } = argv
+
 const compare = require('./compare')
+const Bot = require('./create-bot')
 
 const cwd = process.cwd()
 const git = SimpleGit(cwd)
@@ -71,6 +73,8 @@ module.exports = (async () => {
       if (err) return error(err)
 
       await exec('npm install')
+
+      Bot()
     })
   })
 })()
