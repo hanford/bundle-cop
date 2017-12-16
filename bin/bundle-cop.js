@@ -8,7 +8,7 @@ const fs = require('mz/fs')
 const SimpleGit = require('simple-git')
 const assert = require('assert')
 const { argv } = require('optimist')
-const { branch, team, token } = argv
+const { branch, circleci } = argv
 
 const compare = require('./compare')
 const Bot = require('./bot')
@@ -74,12 +74,14 @@ module.exports = (async () => {
 
       await exec('npm install')
 
-      Bot.create()
+      if (circleci) {
+        Bot.create()
 
-      Bot.comment(`
-        <h2>Bundle Cop 🚓</h2>
-        <strong>${bot.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${bot.env.commitMessage}'`)}</strong>
-      `)
+        Bot.comment(`
+          <h2>Bundle Cop 🚓</h2>
+          <strong>${bot.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${bot.env.commitMessage}'`)}</strong>
+        `)
+      }
     })
   })
 })()
