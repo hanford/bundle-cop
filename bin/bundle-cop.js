@@ -11,7 +11,7 @@ const { argv } = require('optimist')
 const { branch, team, token } = argv
 
 const compare = require('./compare')
-const Bot = require('./create-bot')
+const Bot = require('./bot')
 
 const cwd = process.cwd()
 const git = SimpleGit(cwd)
@@ -74,7 +74,12 @@ module.exports = (async () => {
 
       await exec('npm install')
 
-      Bot()
+      Bot.create()
+
+      Bot.comment(`
+        <h2>Bundle Cop 🚓</h2>
+        <strong>${bot.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${bot.env.commitMessage}'`)}</strong>
+      `)
     })
   })
 })()
