@@ -75,13 +75,15 @@ module.exports = (async () => {
       await exec('npm install')
 
       if (circleci) {
-        log('Running GH bot')
-
         Bot.create()
+
+        log('Running GH bot', Bot.env)
+
+        //  for '${Bot.env.commitMessage}'
 
         Bot.comment(`
           <h2>Bundle Cop 🚓</h2>
-          <strong>${Bot.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${Bot.env.commitMessage}'`)}</strong>
+          <strong>${Bot.artifactLink('bundle-cop/index.html', `Bundle size comparison`)}</strong>
         `)
       }
     })
