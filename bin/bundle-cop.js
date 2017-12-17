@@ -79,7 +79,7 @@ module.exports = (async () => {
 
         log('Running github comment scripts')
 
-        const hasLink = link ? '<div><strong>Environment: ${link}</strong></div>' : ''
+        const hasLink = link ? `<div><strong>Environment: ${link}</strong></div>` : ''
 
         Github.comment(`<h2>Bundle Cop 🚓</h2><div>${link}<strong>${Github.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${Github.env.commitMessage}'`)}</strong></div>`)
       }
