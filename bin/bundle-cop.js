@@ -9,9 +9,9 @@ const SimpleGit = require('simple-git')
 const assert = require('assert')
 const { argv } = require('optimist')
 const { branch, circleci } = argv
+const github = require('ci-github')
 
 const compare = require('./compare')
-const bot = require('./bot')
 
 const cwd = process.cwd()
 const git = SimpleGit(cwd)
@@ -75,11 +75,11 @@ module.exports = (async () => {
       await exec('npm install')
 
       if (circleci) {
-        const Bot = bot.create()
+        const Github = github.create()
 
-        log('Running GH bot')
+        log('Running github comment scripts')
 
-        Bot.comment(`<h2>Bundle Cop 🚓</h2><strong>${Bot.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${Bot.env.commitMessage}'`)}</strong>`)
+        Github.comment(`<h2>Bundle Cop 🚓</h2><strong>${Github.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${Github.env.commitMessage}'`)}</strong>`)
       }
     })
   })
