@@ -8,7 +8,7 @@ const fs = require('mz/fs')
 const SimpleGit = require('simple-git')
 const assert = require('assert')
 const { argv } = require('optimist')
-const { branch, circleci } = argv
+const { branch, circleci, link } = argv
 const github = require('ci-github')
 
 const compare = require('./compare')
@@ -79,7 +79,9 @@ module.exports = (async () => {
 
         log('Running github comment scripts')
 
-        Github.comment(`<h2>Bundle Cop 🚓</h2><strong>${Github.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${Github.env.commitMessage}'`)}</strong>`)
+        const hasLink = link ? '<div><strong>Environment: ${link}</strong></div>' : ''
+
+        Github.comment(`<h2>Bundle Cop 🚓</h2><div>${link}<strong>${Github.artifactLink('bundle-cop/index.html', `Bundle size comparison for '${Github.env.commitMessage}'`)}</strong></div>`)
       }
     })
   })
