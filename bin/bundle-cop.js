@@ -82,7 +82,7 @@ module.exports = (async () => {
         const hasLink = link ? `<div>Environment: <a href='${link}' target='_blank'>${link}</a></div>` : ''
         const commit = `<div>Commit: '<strong>${Github.env.commitMessage}</strong>'</div>`
 
-        Github.comment(`<h2>Bundle Cop 🚓</h2>${commit} ${link}<div>${Github.artifactLink('bundle-cop/index.html', 'Bundle size comparison')}</div>`)
+        Github.comment(`<h2>Bundle Cop 🚓</h2>${commit} ${hasLink}<div>${Github.artifactLink('bundle-cop/index.html', 'Bundle size comparison')}</div>`)
       }
     })
   })
