@@ -2,6 +2,8 @@
 
 Generate a bundle size comparison between two different branches
 
+You can see an example [here](https://bundle-cop-dbgxvwjdtx.now.sh/)
+
 ### Usage
 ```sh
 $ bundle-cop --branch master
