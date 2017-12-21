@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const cp = require('child_process')
 const path = require('path')
 const branchName = require('branch-name')
 const chalk = require('chalk')
@@ -10,9 +9,11 @@ const assert = require('assert')
 const { argv } = require('optimist')
 const { branch, circleci, link } = argv
 const github = require('ci-github')
+const exec = require('await-exec')
 
 const compare = require('./compare')
 
+const execOpts = { log: true }
 const cwd = process.cwd()
 const git = SimpleGit(cwd)
 const { log, error } = console
@@ -32,9 +33,9 @@ module.exports = (async () => {
   } catch (e) {
   }
 
-  await exec(`npm install`)
+  await exec(`npm install`, execOpts)
 
-  await exec(`npm run build-analyze`)
+  await exec(`npm run build-analyze`, execOpts)
 
   const branchStats = await fs.readFile(`${cwd}/.next/stats.json`, 'utf8')
   const branchStatsPath = path.resolve(cwd, 'bundle-cop', 'branch-stats.json')
@@ -49,9 +50,9 @@ module.exports = (async () => {
     if (err) return error(err)
     log(`checked out ${branch}`)
 
-    await exec('npm install')
+    await exec('npm install', execOpts)
 
-    await exec(`npm run build-analyze`)
+    await exec(`npm run build-analyze`, execOpts)
 
     const masterStats = await fs.readFile(`${cwd}/.next/stats.json`, 'utf8')
     const masterStatsPath = path.resolve(cwd, 'bundle-cop', 'master-stats.json')
@@ -62,7 +63,7 @@ module.exports = (async () => {
     log('running comparison')
     await compare(masterStatsPath, branchStatsPath)
 
-    // await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`)
+    // await exec(`rm -rf ${branchStatsPath} ${masterStatsPath}`, execOpts)
 
     log(`stashing any potential changes on ${branch} (*.lock)`)
     git.stash()
@@ -72,7 +73,7 @@ module.exports = (async () => {
     git.checkout(initBranch, async (err, data) => {
       if (err) return error(err)
 
-      await exec('npm install')
+      await exec('npm install', execOpts)
 
       if (circleci) {
         const Github = github.create()
@@ -87,23 +88,3 @@ module.exports = (async () => {
     })
   })
 })()
-
-function exec (command, options = { log: true }) {
-  if (options.log) {
-    log(command)
-  }
-
-  return new Promise((done, failed) => {
-    cp.exec(command, { cwd, ...options }, (err, stdout, stderr) => {
-      if (err) {
-        error(err)
-        err.stdout = stdout
-        err.stderr = stderr
-        failed(err)
-        return
-      }
-
-      done({ stdout, stderr })
-    })
-  })
-}
