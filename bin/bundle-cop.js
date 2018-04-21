@@ -47,7 +47,8 @@ module.exports = (async () => {
   git.stash()
 
   git.checkout(branch, async (err, data) => {
-    if (err) return error(err)
+    if (err) return console.error(err)
+
     log(`checked out ${branch}`)
 
     await exec('npm install', execOpts)
