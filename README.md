@@ -13,7 +13,29 @@ Bundle cop compares the current branch with the one specified using the `--branc
 
 After comparing, it will generate an `index.html` file which is automatically has a breakdown of file size changes
 
-Both branches will need to contain a `npm run build-analyze` script.
+Both branches will need to contain a `npm run build-analyze` script that ensures we're using our `webpack-bundle-analyzer` plugin.
+
+You'll want to use this webpack plugin as well
+
+```sh
+npm i webpack-bundle-analyzer --save-dev
+```
+
+and your `next.config.js` will need something like this:
+
+```js
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
+..
+
+if (process.env.ANALYZE) {
+  config.plugins.push(new BundleAnalyzerPlugin({
+    statsFilename: 'stats.json',
+    analyzerMode: 'disabled',
+    generateStatsFile: true
+  ))
+}
+```
 
 ![preview](https://github.com/hanford/bundle-cop/blob/master/preview.png)
 
